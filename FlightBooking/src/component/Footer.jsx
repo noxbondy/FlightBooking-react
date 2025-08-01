@@ -18,11 +18,11 @@ const Footer = () => {
             <div className="col-md-3">
               <div className="quick-links">
                 <h5>Quick Links</h5>
-                <ul class="list-unstyled">
+                <ul className="list-unstyled">
                   <li>
                     <a
                       href="/BookFlight"
-                      class="text-white text-decoration-none"
+                      className="text-white text-decoration-none"
                     >
                       BookFlight
                     </a>
@@ -30,7 +30,7 @@ const Footer = () => {
                   <li>
                     <a
                       href="/YourFlights"
-                      class="text-white text-decoration-none"
+                      className="text-white text-decoration-none"
                     >
                       YourFlights
                     </a>
@@ -38,26 +38,26 @@ const Footer = () => {
                   <li>
                     <a
                       href="/MyBooking"
-                      class="text-white text-decoration-none"
+                      className="text-white text-decoration-none"
                     >
                       MyBooking
                     </a>
                   </li>
                   <li>
-                    <a href="/Contact" class="text-white text-decoration-none">
+                    <a href="/Contact" className="text-white text-decoration-none">
                       Contact
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
-            <div class="col-md-3 mb-12">
+            <div className="col-md-3 mb-12">
               <h5>Contact Us</h5>
               <p>Email:gulamnoxbondy@gmail.com</p>
               <p>Phone: +46769072199</p>
             </div>
 
-            <div class="col-md-3 mb-12">
+            <div className="col-md-3 mb-12">
               <h5>Social-icons</h5>
               <div className="social-icons">
                 <a href="https://github.com/noxbondy">
