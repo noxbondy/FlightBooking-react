@@ -1,9 +1,7 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
-import { Routes, Route } from "react-router-dom";
-import { HashRouter } from 'react-router-dom';
 
 import BookFlight from "./pages/BookFlight";
 import MyBooking from "./pages/MyBooking";
@@ -17,12 +15,9 @@ import ParentPage from "./dashboard/ParentPage";
 import FlightSearch from "./dashboard/FlightSearch";
 import FilterByPrice from "./dashboard/FilterByPrice";
 
-const basename = import.meta.env.PROD ? "/FlightBooking-react" : "/";
-
 function App() {
   return (
-    <BrowserRouter basename={basename}>
-      
+    <HashRouter>
       <Navbar />
       <Routes>
         <Route path="/BookFlight" element={<BookFlight />} />
@@ -41,7 +36,7 @@ function App() {
         </Route>
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
