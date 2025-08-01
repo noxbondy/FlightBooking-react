@@ -17,7 +17,7 @@ import FilterByPrice from "./dashboard/FilterByPrice";
 
 function App() {
   return (
-    <HashRouter>
+    <HashRouter >
       <Navbar />
       <Routes>
         <Route path="/BookFlight" element={<BookFlight />} />
