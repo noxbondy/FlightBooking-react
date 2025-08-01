@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 import { Routes, Route } from "react-router-dom";
+import { HashRouter } from 'react-router-dom';
 
 import BookFlight from "./pages/BookFlight";
 import MyBooking from "./pages/MyBooking";
@@ -21,6 +22,7 @@ const basename = import.meta.env.PROD ? "/FlightBooking-react" : "/";
 function App() {
   return (
     <BrowserRouter basename={basename}>
+      
       <Navbar />
       <Routes>
         <Route path="/BookFlight" element={<BookFlight />} />
