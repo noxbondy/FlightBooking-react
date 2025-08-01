@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/FlightBooking-react/', // ✅ Correct for GitHub Pages
+  base: '/FlightBooking-react/', // ✅ Must match your GitHub repo name
 });
