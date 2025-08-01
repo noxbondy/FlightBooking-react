@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../Styles/SliderBanner.css"; // Custom CSS if needed
 
 const slides = [
-  { image: `${import.meta.env.BASE_URL}img/banner.jpg`, quote: "Book your Flight." },
-  { image: `${import.meta.env.BASE_URL}img/banner2.jpg`, quote: "Secure. Fast. Reliable." },
-  { image: `${import.meta.env.BASE_URL}img/banner3.jpg`, quote: "Low Price and Flexible." },
+  { image: "img/banner.jpg", quote: "Book your Flight." },
+  { image: "img/banner2.jpg", quote: "Secure. Fast. Reliable." },
+  { image: "img/banner3.jpg", quote: "Low Price and Flexible." },
 ];
 const SliderBanner = () => {
   const [current, setCurrent] = useState(0);
