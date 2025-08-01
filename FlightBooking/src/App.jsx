@@ -19,27 +19,26 @@ import { ParentContext } from "./context/ParentContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/BookFlight" element={<BookFlight />} />
-        <Route path="MyBooking" element={<MyBooking />} />
-        <Route path="YourFlights" element={<YourFlights />} />
+    <BrowserRouter basename="/FlightBooking-react">
+  <Navbar />
+  <Routes>
+    <Route path="/BookFlight" element={<BookFlight />} />
+    <Route path="MyBooking" element={<MyBooking />} />
+    <Route path="YourFlights" element={<YourFlights />} />
 
-        {/* Nested routes under ParentPage */}
-        <Route path="/" element={<ParentPage />}>
-          <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="AllFlights" element={<AllFlights />} />
-          <Route path="AvailableFlights" element={<AvailableFlights />} />
-          <Route path="BookedFlights" element={<BookedFlights />} />
-          <Route path="CreateFlight" element={<CreateFlight />} />
-          <Route path="FlightSearch" element={<FlightSearch />} />
-          <Route path="FilterByPrice" element={<FilterByPrice />} />
-        </Route>
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <Route path="/" element={<ParentPage />}>
+      <Route index element={<Dashboard />} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="AllFlights" element={<AllFlights />} />
+      <Route path="AvailableFlights" element={<AvailableFlights />} />
+      <Route path="BookedFlights" element={<BookedFlights />} />
+      <Route path="CreateFlight" element={<CreateFlight />} />
+      <Route path="FlightSearch" element={<FlightSearch />} />
+      <Route path="FilterByPrice" element={<FilterByPrice />} />
+    </Route>
+  </Routes>
+  <Footer />
+</BrowserRouter>
   );
 }
 
