@@ -1,14 +1,13 @@
 .navbar {
   display: flex;
-  width: auto;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: #004080;
   padding: 10px 20px;
-  border-bottom: 2px solid #e5e5e5;
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
+  color: white;
+  position: relative;
 }
+
 
 .logo {
   font-weight: bold;
@@ -22,8 +21,9 @@
 
 .nav-links {
   display: flex;
-  gap: 16px;
+  gap: 20px;
 }
+
 
 .nav-links a {
   text-decoration: none;
@@ -120,3 +120,40 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
   padding-top: 200px;
 }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger .bar {
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation when open */
+.hamburger .bar.open:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger .bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger .bar.open:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+
+
+ 

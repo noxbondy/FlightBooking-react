@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect } from "react";
 import "../Styles/SliderBanner.css"; // Custom CSS if needed
 
 const slides = [
@@ -8,6 +8,7 @@ const slides = [
 ];
 const SliderBanner = () => {
   const [current, setCurrent] = useState(0);
+  
 
   useEffect(() => {
     const interval = setInterval(() => {

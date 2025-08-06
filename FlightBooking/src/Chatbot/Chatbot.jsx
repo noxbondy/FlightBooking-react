@@ -6,35 +6,48 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
-  const [destination, setDestination] = useState("");
+
+  const backendUrl = "http://localhost:8080/api/chat";
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Load chat history when conversationId changes
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (!conversationId) return;
+      try {
+        const res = await fetch(`${backendUrl}/history/${conversationId}`);
+        const history = await res.json();
+        const formatted = history.map((msg) => ({
+          from: msg.name || "bot",
+          text: msg.content || "",
+        }));
+        setMessages(formatted);
+      } catch (err) {
+        console.error("Failed to load history", err);
+      }
+    };
+    fetchHistory();
+  }, [conversationId]);
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage = { from: "user", text: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const userMsg = { from: "user", text: input };
+    setMessages((prev) => [...prev, userMsg]);
 
     try {
-      const baseUrl = "http://localhost:8080/api/chat/messages";
-      const params = new URLSearchParams(
-        conversationId
-          ? { conversationId, question: input }
-          : { question: input }
-      );
+      const res = await fetch(`${backendUrl}/chat?conversationId=${conversationId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: input }),
+      });
 
-      const url = conversationId
-        ? `${baseUrl}/new-chat-memory?${params.toString()}`
-        : `${baseUrl}?${params.toString()}`;
-
-      const res = await fetch(url);
-      const botText = await res.text();
-
-      setMessages((prev) => [...prev, { from: "bot", text: botText }]);
-    } catch (error) {
+      const botResponse = await res.text();
+      setMessages((prev) => [...prev, { from: "bot", text: botResponse }]);
+    } catch (err) {
       setMessages((prev) => [
         ...prev,
         { from: "bot", text: "⚠️ Error fetching response." },
@@ -44,6 +57,17 @@ const Chatbot = () => {
     setInput("");
   };
 
+  const clearChat = async () => {
+    if (!conversationId) return alert("Enter conversation ID first.");
+
+    try {
+      await fetch(`${backendUrl}/clear/${conversationId}`, { method: "DELETE" });
+      setMessages([]);
+    } catch (err) {
+      alert("Failed to clear chat.");
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -51,36 +75,8 @@ const Chatbot = () => {
     }
   };
 
-  const searchFlights = async () => {
-    if (!destination.trim()) return;
-
-    setLoading(true);
-    setError("");
-    setFlights([]);
-
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/chat/test-flights-by-destination?destination=${encodeURIComponent(
-          destination
-        )}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch flights");
-      }
-
-      const data = await response.json();
-      setFlights(data);
-    } catch (err) {
-      setError("❌ Error fetching flights. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <>
-      {/* Chat toggle button */}
       <button
         onClick={() => setOpen(!open)}
         style={{
@@ -100,7 +96,6 @@ const Chatbot = () => {
         {open ? "Close Chat" : "Chat"}
       </button>
 
-      {/* Chat window */}
       {open && (
         <div
           style={{
@@ -108,7 +103,7 @@ const Chatbot = () => {
             bottom: "110px",
             right: "20px",
             width: "340px",
-            height: "440px",
+            height: "480px",
             backgroundColor: "white",
             border: "1px solid #ddd",
             borderRadius: "10px",
@@ -118,22 +113,34 @@ const Chatbot = () => {
             zIndex: 10000,
           }}
         >
-          {/* Optional Conversation ID input */}
-          <input
-            type="text"
-            value={conversationId}
-            onChange={(e) => setConversationId(e.target.value)}
-            placeholder="Conversation ID (optional)"
-            style={{
-              border: "none",
-              borderBottom: "1px solid #ccc",
-              padding: "10px",
-              fontSize: "14px",
-              outline: "none",
-            }}
-          />
+          <div style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+            <input
+              type="text"
+              value={conversationId}
+              onChange={(e) => setConversationId(e.target.value)}
+              placeholder="Conversation ID"
+              style={{
+                width: "calc(100% - 70px)",
+                padding: "5px",
+                fontSize: "13px",
+                marginRight: "5px",
+              }}
+            />
+            <button
+              onClick={clearChat}
+              style={{
+                padding: "5px 10px",
+                fontSize: "12px",
+                backgroundColor: "#dc3545",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+              }}
+            >
+              Clear
+            </button>
+          </div>
 
-          {/* Messages area */}
           <div
             style={{
               flex: 1,
@@ -173,7 +180,6 @@ const Chatbot = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input area */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
