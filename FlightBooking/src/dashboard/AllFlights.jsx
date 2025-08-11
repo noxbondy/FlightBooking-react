@@ -10,6 +10,7 @@ const AllFlights = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState({});
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const apiEndpoint = "http://localhost:8080/api/flights";
 
@@ -22,6 +23,7 @@ const AllFlights = () => {
       const response = await axios.get(apiEndpoint);
       if (response.status === 200) {
         setFlights(response.data);
+        setError(null);
       } else {
         setError("Failed to load flights");
       }
@@ -71,6 +73,36 @@ const AllFlights = () => {
       fetchAllFlights();
     } catch (error) {
       console.error("Error updating booked flights:", error);
+      setError("Failed to update selected flights.");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (selectedIds.length === 0) return;
+    try {
+      setIsDeleting(true);
+      await Promise.all(
+        selectedIds.map((id) => axios.delete(`${apiEndpoint}/${id}`))
+      );
+      setSelectedIds([]);
+      setError(null);
+      fetchAllFlights(); // Refresh the list after deletion
+    } catch (error) {
+      console.error("Error deleting flights:", error);
+      if (error.response) {
+        // Server responded with an error status
+        setError(
+          `Delete failed: ${error.response.data.message || error.response.data}`
+        );
+      } else if (error.request) {
+        // Request made but no response received
+        setError("No response from server. Please try again later.");
+      } else {
+        // Other errors
+        setError("Failed to delete selected flights: " + error.message);
+      }
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -94,6 +126,13 @@ const AllFlights = () => {
               disabled={!editMode}
             >
               Save Changes
+            </button>
+            <button
+              className="button is-danger is-outlined"
+              onClick={handleDelete}
+              disabled={selectedIds.length === 0 || isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
             </button>
           </div>
 

@@ -57,16 +57,7 @@ const Chatbot = () => {
     setInput("");
   };
 
-  const clearChat = async () => {
-    if (!conversationId) return alert("Enter conversation ID first.");
-
-    try {
-      await fetch(`${backendUrl}/clear/${conversationId}`, { method: "DELETE" });
-      setMessages([]);
-    } catch (err) {
-      alert("Failed to clear chat.");
-    }
-  };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -113,33 +104,7 @@ const Chatbot = () => {
             zIndex: 10000,
           }}
         >
-          <div style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-            <input
-              type="text"
-              value={conversationId}
-              onChange={(e) => setConversationId(e.target.value)}
-              placeholder="Conversation ID"
-              style={{
-                width: "calc(100% - 70px)",
-                padding: "5px",
-                fontSize: "13px",
-                marginRight: "5px",
-              }}
-            />
-            <button
-              onClick={clearChat}
-              style={{
-                padding: "5px 10px",
-                fontSize: "12px",
-                backgroundColor: "#dc3545",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-              }}
-            >
-              Clear
-            </button>
-          </div>
+          
 
           <div
             style={{
